@@ -1,0 +1,54 @@
+import React, { useState } from 'react';
+
+const user_list = ['Alan', 'Bob', 'Carol', 'Dean', 'Elin'];
+
+const ChatApp = () => {
+  const [message, setMessage] = useState('');
+  const [chatMessages, setChatMessages] = useState([]);
+
+  const handleInputChange = (event) => {
+    setMessage(event.target.value);
+  };
+
+  const handleSendMessage = () => {
+    const randomUser = user_list[Math.floor(Math.random() * user_list.length)];
+    const newMessage = {
+      user: randomUser,
+      message: message,
+      likes: 0,
+    };
+
+    setChatMessages([...chatMessages, newMessage]);
+    setMessage('');
+  };
+
+  return (
+    <div>
+      <div className="chat-messages">
+        {chatMessages.map((chat, index) => (
+          <div key={index} className="message">
+            <span className="username">{chat.user}: </span>
+            <span className="message-text">{chat.message}</span>
+            <button
+              className="like-button"
+              onClick={() => handleLikeMessage(index)}
+            >
+              Like ({chat.likes})
+            </button>
+          </div>
+        ))}
+      </div>
+      <div className="chat-input">
+        <input
+          type="text"
+          value={message}
+          onChange={handleInputChange}
+          placeholder="Type your message..."
+        />
+        <button onClick={handleSendMessage}>Send</button>
+      </div>
+    </div>
+  );
+};
+
+export default ChatApp;
